@@ -1,0 +1,17 @@
+.btn {
+    padding: 3px 5px 3px 5px;
+    line-height: 1.5em;
+    background-color: #1976D2;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgb(22, 100, 184);
+    }
+
+    &:disabled {
+        cursor: default;
+        background-color: #e5e5e5;
+    }
+}

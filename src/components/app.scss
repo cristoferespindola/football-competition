@@ -1,0 +1,29 @@
+@import "./team/teamList/teamList.scss";
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    .container {
+        max-width: 1200px;
+        display: flex;
+        margin: 0 auto;
+        justify-content: center;       
+    }
+
+    .row {
+        text-align: center;
+        margin: 5px;
+        flex-direction: row;
+    }
+
+    .content {
+        flex-direction: column;
+        width: 100%;
+
+        h1 {
+            text-align: center;
+        }
+    }
+}

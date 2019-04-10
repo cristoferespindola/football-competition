@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from "axios";
 
+import Competition from "./Competition/Competition";
 import TeamList from "./Team/TeamList/TeamList";
 import TeamHeaders from "./Team/TeamHeaders/TeamHeaders"
 import Search from "./Search/Search";
 import Loader from "./Loader/Loader";
 
-import { API_URL, HEADERS } from "../api/api";
+import { API_URL, HEADERS } from "../api/constants";
 import "./app.scss";
 
 class App extends Component {
@@ -14,7 +15,8 @@ class App extends Component {
     result: null,
     loading: false,
     search: "",
-    error: false
+    error: false,
+    errorMessage: ""
   }
 
   handleSearch = (event) => {
@@ -22,19 +24,32 @@ class App extends Component {
   }
 
   handleSearchRequest = () => {
-    this.setState({ loading: true, result: null });
+    this.setState({
+      loading: true,
+      result: null,
+      errorMessage: ""
+     });
 
     axios.get(`${API_URL}/${this.state.search}/standings`, HEADERS)
       .then(response => {
-        this.setState({
-          result: response.data,
-          loading: false,
-          error: false
-        });
+        if(response.data.standings) {
+          this.setState({
+            result: response.data,
+            loading: false,
+            error: false,
+            errorMessage: ""
+          });
+        } else {
+          this.setState({
+            error: true,
+            errorMessage: "Desculpa ai. Tente mais tarde 😓"
+          })
+        }
       })
       .catch(() => {
         this.setState({
-          error: true
+          error: true,
+          errorMessage: "Busca inválida"
         });
       })
       .finally(() => {
@@ -56,7 +71,7 @@ class App extends Component {
         className="table-container"
         role="table"
         aria-label="Destinations"
-      >
+      > <Competition name={result.competition.name} country={result.competition.area.name} />
         <TeamHeaders />
         <TeamList teams={result.standings[0].table} />
       </div>
@@ -64,19 +79,21 @@ class App extends Component {
 
     const errorMessage = error ?(
       <div>
-        <p>Busca inválida</p>
+        <p>{this.state.errorMessage}</p>
       </div>
     ) : '';
 
     return (
       <div className="content">
-        <h1>Football Cristão Table</h1>
-        <div className="row">
-          <Search
-            onChangeSearch={this.handleSearch}
-            searchRequest={this.handleSearchRequest}
-            buttonEnable={search.length}
-          />
+      <div className="top">
+          <h1>Football Competition</h1>
+          <div className="row">
+            <Search
+              onChangeSearch={this.handleSearch}
+              searchRequest={this.handleSearchRequest}
+              buttonEnable={search.length}
+            />
+            </div>
         </div>
         <div className="row">
           {loader}

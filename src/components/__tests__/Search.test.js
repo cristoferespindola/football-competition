@@ -1,8 +1,7 @@
 import React from "react";
-import { cleanup, render, fireEvent, findByTestId } from "react-testing-library";
+import { cleanup, render, fireEvent } from "react-testing-library";
 
 import Search from "../Search/Search";
-import Button from "../Button/Button";
 
 afterEach(cleanup);
 
@@ -14,21 +13,14 @@ describe("Search Input", () => {
         expect(searchInput).toBeDefined();
 
     });
-    it("Button is disable if search input empty", () => {
-        let enable = 0;
+    it("Trigger props action onchange", () => {
+        const handleSearch = jest.fn();
         const { getByTestId } = render(
-            <Search buttonEnable={enable}/>
+            <Search onChangeSearch={handleSearch}/>
             );
-
         const searchInput = getByTestId("searchInput");
-        const searchBtn = getByTestId("searchBtn");
-
-        expect(searchBtn.disabled).toBe(true);
 
         fireEvent.change(searchInput, { target: { value: "2013"} });
-        enable = searchInput.value.length;
-
-        expect(searchBtn.disabled).toBe(false);
-
+        expect(handleSearch).toHaveBeenCalledTimes(1);
     });
 })

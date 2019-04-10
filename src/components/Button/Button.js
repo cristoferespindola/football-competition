@@ -15,7 +15,7 @@ const Button = (props) => {
             disabled={buttonEnable < 1}
             onClick={clickButton}
             data-testid="searchBtn">
-            Search
+            Buscar
             </button>
 
     )

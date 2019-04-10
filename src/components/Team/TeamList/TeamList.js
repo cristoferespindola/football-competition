@@ -8,7 +8,7 @@ const TeamList = (props) => {
             <div>
                 {props.teams.map((item, index) => {
                     return (
-                        <TeamItem key={index} team={item} />
+                        <TeamItem key={index} team={item} name={item.team.name} />
                     )
                 })}
             </div>

@@ -13,11 +13,13 @@ const Search = props => {
 
     return (
         <div className="row">
+        <p>Entre com o código do campeonato.</p>
             <input
                 className="search"
                 type="text"
                 onChange={onChangeSearch}
-                data-testid="searchInput" />
+                data-testid="searchInput"
+                placeholder="Ex: 2013"/>
 
             <Button
                 clickButton={searchRequest}
